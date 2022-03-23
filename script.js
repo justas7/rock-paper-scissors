@@ -1,6 +1,11 @@
 "use strict";
 
 const choices = ["rock", "paper", "scissors"];
+let winner;
+
+const firstLetterUpperCase = function (word) {
+  return word[0].toUpperCase() + word.slice(1, word.length);
+};
 
 /* computerPlay */
 const computerPlay = function () {
@@ -14,27 +19,55 @@ const playRound = function (playerSel, computerSelection) {
   let playerSelection = playerSel.toLowerCase();
 
   if (!choices.includes(playerSelection)) {
-    return "Unavailable choice";
+    return (winner = "Unavailable choise");
   }
 
   if (playerSelection === computerSelection) {
-    return `Tie`;
+    winner = "tie";
+    return "Tie";
   } else if (playerSelection === "rock" && computerSelection === "scissors") {
-    return `You win! rock beats scissors`;
+    winner = "player";
+    return "Player | Rock beats scissors";
   } else if (playerSelection === "scissors" && computerSelection === "rock") {
-    return `You lose! rock beats scissors`;
+    winner = "computer";
+    return " Computer | Rock beats scissors";
   } else if (
     choices.indexOf(playerSelection) > choices.indexOf(computerSelection)
   ) {
-    return `You win! ${playerSelection} beats ${computerSelection}`;
+    winner = "player";
+    return `Player | ${firstLetterUpperCase(
+      playerSelection
+    )} beats ${firstLetterUpperCase(computerSelection)}`;
   } else {
-    return `You lose! ${computerSelection} beats ${playerSelection}`;
+    winner = "computer";
+    return `Computer | ${firstLetterUpperCase(
+      computerSelection
+    )} beats ${firstLetterUpperCase(playerSelection)} `;
   }
 };
 
-let playerSelection = "Scissors";
-let computerSelection = computerPlay();
+/* Game */
+const game = function () {
+  let playerWins = 0;
+  let computerWins = 0;
 
-console.log(playRound(playerSelection, computerSelection));
+  for (let i = 0; i < 5; i++) {
+    console.log(playRound(prompt("Rock, paper, scissors?"), computerPlay()));
+
+    if (winner === "player") {
+      playerWins++;
+    } else if (winner === "computer") {
+      computerWins++;
+    }
+  }
+
+  if (playerWins == computerWins) {
+    return `Tie\nPlayer: ${playerWins} | Computer: ${computerWins}`;
+  } else if (playerWins > computerWins) {
+    return `You won!\nPlayer: ${playerWins} | Computer: ${computerWins}`;
+  } else return `You lost!\nPlayer: ${playerWins} | Computer: ${computerWins}`;
+};
+
+console.log(game());
 
 // console.log(computerPlay(choices, 3));
