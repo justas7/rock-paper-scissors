@@ -1,73 +1,80 @@
 "use strict";
 
 const choices = ["rock", "paper", "scissors"];
-let winner;
+let winner = "";
+let playerWins = 0;
+let computerWins = 0;
 
+const choiceBtns = document.querySelectorAll(".choiceBtn");
+const roundsLog = document.querySelector("#roundsLog");
+const resultDiv = document.querySelector("#gameResult");
+const winsCounterP = document.querySelector("#winsCounter");
+const resultP = document.createElement("p");
+
+/* Helper functions */
 const firstLetterUpperCase = function (word) {
   return word[0].toUpperCase() + word.slice(1, word.length);
 };
 
-/* computerPlay */
+/* Decides what computer plays*/
 const computerPlay = function () {
-  let choice = choices[Math.floor(Math.random() * 3)];
+  let choice = choices[Math.floor(Math.random() * choices.length)];
 
   return choice;
 };
 
-/* playRound */
-const playRound = function (playerSel, computerSelection) {
-  let playerSelection = playerSel.toLowerCase();
+/* Rock paper scissors game logic */
+const playRound = function () {
+  let playerSelection = this.name;
+  let computerSelection = computerPlay();
 
-  if (!choices.includes(playerSelection)) {
-    return (winner = "Unavailable choise");
-  }
+  console.log(playerSelection);
+  console.log(computerSelection);
 
   if (playerSelection === computerSelection) {
-    winner = "tie";
-    return "Tie";
-  } else if (playerSelection === "rock" && computerSelection === "scissors") {
-    winner = "player";
-    return "Player | Rock beats scissors";
+    roundsLog.textContent = "It's a Tie!";
+    winner = "";
   } else if (playerSelection === "scissors" && computerSelection === "rock") {
+    roundsLog.textContent = "You lost... Rock beats Scissors.";
     winner = "computer";
-    return " Computer | Rock beats scissors";
   } else if (
+    (playerSelection === "rock" && computerSelection === "scissors") ||
     choices.indexOf(playerSelection) > choices.indexOf(computerSelection)
   ) {
+    roundsLog.textContent = `You won! ${firstLetterUpperCase(playerSelection)}
+      beats ${firstLetterUpperCase(computerSelection)}.`;
     winner = "player";
-    return `Player | ${firstLetterUpperCase(
-      playerSelection
-    )} beats ${firstLetterUpperCase(computerSelection)}`;
   } else {
+    roundsLog.textContent = `You lost... ${firstLetterUpperCase(computerSelection)}
+      beats ${firstLetterUpperCase(playerSelection)}.`;
     winner = "computer";
-    return `Computer | ${firstLetterUpperCase(
-      computerSelection
-    )} beats ${firstLetterUpperCase(playerSelection)} `;
   }
 };
 
 /* Game */
-const game = function () {
-  let playerWins = 0;
-  let computerWins = 0;
+const game = function (e) {
+  const playRoundBinded = playRound.bind(e.target);
+  playRoundBinded();
 
-  for (let i = 0; i < 5; i++) {
-    console.log(playRound(prompt("Rock, paper, scissors?"), computerPlay()));
+  if (winner === "player") playerWins++;
+  if (winner === "computer") computerWins++;
+  winsCounterP.textContent = `Player: ${playerWins} | Computer ${computerWins}`;
 
-    if (winner === "player") {
-      playerWins++;
-    } else if (winner === "computer") {
-      computerWins++;
-    }
+  if (playerWins === 5) {
+    choiceBtns.forEach((btn) => (btn.disabled = true));
+    resultP.textContent = "You won the game. Reload the page to play again.";
+    resultDiv.insertBefore(resultP, winsCounterP);
   }
 
-  if (playerWins == computerWins) {
-    return `Tie\nPlayer: ${playerWins} | Computer: ${computerWins}`;
-  } else if (playerWins > computerWins) {
-    return `You won!\nPlayer: ${playerWins} | Computer: ${computerWins}`;
-  } else return `You lost!\nPlayer: ${playerWins} | Computer: ${computerWins}`;
+  if (computerPlay === 5) {
+    choiceBtns.forEach((btn) => (btn.disabled = true));
+    resultP.textContent = "You lost the game. Reload the page to play again.";
+    resultDiv.insertBefore(resultP, winsCounterP);
+  }
 };
 
-console.log(game());
+/* adding event listiners to rock paper scissors buttons */
 
-// console.log(computerPlay(choices, 3));
+choiceBtns.forEach(function (btn) {
+  btn.addEventListener("click", game);
+});
