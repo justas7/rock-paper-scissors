@@ -60,15 +60,12 @@ const game = function (e) {
   if (winner === "computer") computerWins++;
   winsCounterP.textContent = `Player: ${playerWins} | Computer ${computerWins}`;
 
-  if (playerWins === 5) {
+  if (playerWins === 5 || computerWins === 5) {
     choiceBtns.forEach((btn) => (btn.disabled = true));
-    resultP.textContent = "You won the game. Reload the page to play again.";
-    resultDiv.insertBefore(resultP, winsCounterP);
-  }
+    playerWins === 5
+      ? (resultP.textContent = "You won the game. Reload the page to play again.")
+      : (resultP.textContent = "You lost the game. Reload the page to play again.");
 
-  if (computerPlay === 5) {
-    choiceBtns.forEach((btn) => (btn.disabled = true));
-    resultP.textContent = "You lost the game. Reload the page to play again.";
     resultDiv.insertBefore(resultP, winsCounterP);
   }
 };
