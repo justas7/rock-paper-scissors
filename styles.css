@@ -10,4 +10,160 @@ html {
   margin: 0;
 }
 
+body {
+  background-color: #ffff00;
+}
+
+#main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Header */
+
+#header {
+  text-align: center;
+  padding: 30px 10px;
+  max-height: 200px;
+}
+
+#header h1 {
+  font-size: 4rem;
+  color: #9309a8;
+  font-weight: 900;
+}
+
+/* Scores container */
+
+#gameResult {
+  padding: 40px 10px;
+  width: 80vw;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 60px;
+}
+
+#winsCounter {
+  width: 80vw;
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 3rem;
+}
+
+/* Player's and computer's selections */
+
+#selectionsContainer {
+  display: flex;
+  width: 80vw;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.selection {
+  height: 300px;
+  width: 300px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+#roundsLog {
+  font-size: 2rem;
+  color: #9309a8;
+  text-align: center;
+  width: 200px;
+}
+
 /* Buttons */
+
+#buttons-container {
+  display: flex;
+  justify-content: center;
+  max-height: 300px;
+  align-items: end;
+  gap: 120px;
+}
+
+.choiceBtn {
+  border: none;
+  height: 100px;
+  width: 100%;
+}
+
+.choiceBtn:hover {
+  transform: translateY(-30px);
+}
+
+.image {
+  max-height: 100%;
+  background-color: #ffff00;
+}
+
+.restartBtn {
+  display: block;
+  padding: 20px;
+  margin: 10px auto;
+  background-color: #9309a8;
+  border-radius: 8px;
+  color: white;
+}
+
+.restartBtn:hover {
+  background-color: #a80cc0;
+}
+
+/* media queries */
+
+@media (max-width: 1000px) {
+  #header h1 {
+    font-size: 3rem;
+  }
+
+  #gameResult {
+    padding: 5px;
+  }
+
+  #winsCounter {
+    width: 90%;
+    font-size: 1.1rem;
+  }
+
+  #selectionsContainer {
+    width: 90%;
+  }
+
+  .selection {
+    width: 100px;
+    height: 100px;
+    padding: 0;
+  }
+
+  #roundsLog {
+    font-size: 1rem;
+  }
+
+  #buttons-container {
+    gap: 15px;
+    margin-top: 100px;
+    width: 90vw;
+  }
+
+  .choiceBtn {
+    width: auto;
+  }
+}
+
+@media (max-width: 400px) {
+  #selectionsContainer img {
+    max-width: 95%;
+  }
+}
